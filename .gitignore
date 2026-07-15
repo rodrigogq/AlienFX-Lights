@@ -1,0 +1,19 @@
+# Build output
+build/
+.build/
+dist/
+
+# Local USB captures (protocol reverse-engineering; never committed)
+_captures/
+captures/
+
+# macOS / editor cruft
+.DS_Store
+xcuserdata/
+*.xcuserstate
+.swiftpm/
+
+# IDE
+.vs/
+.vscode/
+CMakeSettings.json
