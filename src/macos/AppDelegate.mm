@@ -314,6 +314,12 @@ NSString* DeviceKey(uint32_t deviceID) {
     [panel makeKeyAndOrderFront:nil];
 }
 - (void)customColorChanged:(NSColorPanel*)panel {
+    // Fires continuously while dragging in the panel; coalesce so each tick
+    // doesn't trigger a full hardware apply (seconds on wireless keyboards).
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(applyPanelColor:) object:panel];
+    [self performSelector:@selector(applyPanelColor:) withObject:panel afterDelay:0.3];
+}
+- (void)applyPanelColor:(NSColorPanel*)panel {
     NSColor* c = [panel.color colorUsingColorSpace:[NSColorSpace sRGBColorSpace]];
     if (c) [self setColorR:(uint8_t)(c.redComponent*255) g:(uint8_t)(c.greenComponent*255) b:(uint8_t)(c.blueComponent*255)];
 }

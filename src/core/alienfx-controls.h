@@ -12,9 +12,9 @@ namespace AlienFX_SDK {
 	//	Primax = 0x461,
 	//	Chicony = 0x4f2
 	//};
-	//						       v0    1    2    3    4    5    6    7   8    9
-	const byte    reportIDList[]{   0,   2,   2,   2,   0,0xcc,   0,   0,  1,   0 };
-	const byte brightnessScale[]{ 0xf,0x64,0x64,0x64,0x64,0xff,0x64,0x64,0xa,0x64 };
+	//						       v0    1    2    3    4    5    6    7   8    9  10 (AW920K)
+	const byte    reportIDList[]{   0,   2,   2,   2,   0,0xcc,   0,   0,  1,   0,   0 };
+	const byte brightnessScale[]{ 0xf,0x64,0x64,0x64,0x64,0xff,0x64,0x64,0xa,0x64, 0xa };
 
 	// V1-V3, old devices
 		const byte COMMV1_color[]{ 1, 0x03 };

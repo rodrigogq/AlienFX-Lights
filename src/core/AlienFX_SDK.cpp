@@ -119,7 +119,7 @@ namespace AlienFX_SDK {
 			memcpy(buffer, command, command[0] + 1);
 			buffer[0] = reportIDList[version];
 
-			if (mods) {
+			if (mods && !mods->empty()) {
 				for (auto i = mods->begin(); i < mods->end(); i++)
 					memcpy(buffer + i->i, i->vval.data(), i->vval.size());
 				needV8Feature = mods->front().vval.size() == 1;
@@ -799,8 +799,10 @@ namespace AlienFX_SDK {
 				AfxSleepMs(10);
 			return i < 100;
 		case API_V4:
-			while (!IsDeviceReady()) AfxSleepMs(20);
-			return 1;
+			// Bounded like every other wait here: a controller stuck at BUSY
+			// (or gone mid-poll) must not hang the UI thread forever.
+			for (; i < 500 && !IsDeviceReady(); i++) AfxSleepMs(20);
+			return i < 500;
 		default:
 			return GetDeviceStatus();
 		}

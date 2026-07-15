@@ -20,11 +20,16 @@ static const wchar_t* kRunKey = L"Software\\Microsoft\\Windows\\CurrentVersion\\
 static const wchar_t* kRunValue = L"AlienFX Lights";
 
 static std::wstring ReadString(const wchar_t* key, const wchar_t* value) {
-    wchar_t buf[64] = {};
-    DWORD size = sizeof(buf);
-    if (RegGetValueW(HKEY_CURRENT_USER, key, value, RRF_RT_REG_SZ, nullptr, buf, &size) == ERROR_SUCCESS)
-        return buf;
-    return L"";
+    // Sized dynamically: the Run-key value holds the full quoted exe path,
+    // which easily exceeds a small fixed buffer.
+    DWORD size = 0;
+    if (RegGetValueW(HKEY_CURRENT_USER, key, value, RRF_RT_REG_SZ, nullptr, nullptr, &size) != ERROR_SUCCESS || !size)
+        return L"";
+    std::wstring buf(size / sizeof(wchar_t), L'\0');
+    if (RegGetValueW(HKEY_CURRENT_USER, key, value, RRF_RT_REG_SZ, nullptr, &buf[0], &size) != ERROR_SUCCESS)
+        return L"";
+    buf.resize(wcslen(buf.c_str())); // trim the terminator(s)
+    return buf;
 }
 
 static bool ReadDword(const wchar_t* key, const wchar_t* value, DWORD* out) {
