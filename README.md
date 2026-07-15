@@ -16,6 +16,37 @@ services, no account.
 It starts **passive**: it never changes your lighting until you pick something in
 the menu, so whatever you set elsewhere is preserved.
 
+![AlienFX Lights tray menu on Windows](docs/screenshot-menu.png)
+
+## Download & install
+
+Grab the ZIP for your platform from the
+**[latest release](https://github.com/rodrigogq/AlienFX-Lights/releases/latest)** —
+no installer, no admin rights, no background services.
+
+### Windows
+
+1. Download **`AlienFXLights-x.y.z-Windows.zip`** and extract it anywhere
+   (e.g. a folder in `Documents`, or `C:\Tools`).
+2. Double-click **`AlienFXLights.exe`**. An alien-head icon appears in the
+   system tray (check the `^` overflow area next to the clock).
+3. Optional: click the icon → **Start at Login** so it's always there.
+
+> **SmartScreen:** the executable is not code-signed, so the first run may show
+> "Windows protected your PC". Click **More info → Run anyway**.
+
+### macOS
+
+1. Download **`AlienFXLights-x.y.z-Darwin.zip`** and unzip it.
+2. Drag **`AlienFXLights.app`** into **Applications** and open it. The alien-head
+   icon appears in the menu bar (there is no Dock icon).
+3. Optional: click the icon → **Start at Login**.
+
+> **Gatekeeper:** the app is not notarized, so the first launch may be blocked.
+> Right-click the app → **Open** → **Open**, or allow it under
+> *System Settings → Privacy & Security*. If a keyboard won't respond, also
+> grant **Input Monitoring** under *Privacy & Security → Input Monitoring*.
+
 One shared C++ core drives the AlienFX protocol (API v2–v8, plus a
 capture-decoded protocol for the AW920K wireless keyboard) behind a per-platform
 HID transport. The UI is native Win32 on Windows and Objective-C++/AppKit on
@@ -33,7 +64,7 @@ scripts/            icon generators (PowerShell / bash)
 docs/               notes, incl. the decoded AW920K protocol
 ```
 
-## Build & run
+## Build & run (from source)
 
 The project is plain CMake. Open the repository folder directly in your IDE, or
 build from the command line.
@@ -63,7 +94,7 @@ cmake --build build --config Release
 **Make a release ZIP:**
 ```powershell
 cmake --build build --config Release --target package
-# -> build\AlienFXLights-2.0.0-Windows.zip
+# -> build\AlienFXLights-1.0.0-Windows.zip
 ```
 
 ### macOS
@@ -89,7 +120,7 @@ open build/AlienFXLights.app          # Xcode generator: build/Release/AlienFXLi
 **Make a release ZIP:**
 ```sh
 cmake --build build --config Release --target package
-# -> build/AlienFXLights-2.0.0-Darwin.zip
+# -> build/AlienFXLights-1.0.0-Darwin.zip
 ```
 
 The app is a menu bar item (no Dock icon). On first run, if a keyboard interface

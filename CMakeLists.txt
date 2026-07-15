@@ -9,10 +9,16 @@
 # This file is part of AlienFX-Lights and is distributed under the GNU GPLv3.
 
 cmake_minimum_required(VERSION 3.21)
-project(AlienFXLights VERSION 2.0.0 LANGUAGES CXX)
+project(AlienFXLights VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(MSVC)
+    # Sources are UTF-8 without BOM; without this MSVC decodes them in the
+    # local ANSI codepage and non-ASCII characters in string literals
+    # (e.g. the "Custom…" menu item) turn into mojibake.
+    add_compile_options(/utf-8)
+endif()
 if(APPLE)
     enable_language(OBJCXX)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0" CACHE STRING "Minimum macOS version")
