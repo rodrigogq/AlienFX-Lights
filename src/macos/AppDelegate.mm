@@ -260,7 +260,7 @@ NSString* DeviceKey(uint32_t deviceID) {
         NSMenuItem* login = [[NSMenuItem alloc] initWithTitle:@"Start at Login" action:@selector(toggleLoginItem:) keyEquivalent:@""];
         login.target = self;
         if (@available(macOS 13.0, *))
-            login.state = (SMAppService.mainApp.status == SMAppServiceStatusEnabled) ? NSControlStateValueOn : NSControlStateValueOff;
+            login.state = (SMAppService.mainAppService.status == SMAppServiceStatusEnabled) ? NSControlStateValueOn : NSControlStateValueOff;
         [menu addItem:login];
     }
     [menu addItem:[NSMenuItem separatorItem]];
@@ -330,10 +330,10 @@ NSString* DeviceKey(uint32_t deviceID) {
 - (void)toggleLoginItem:(NSMenuItem*)sender {
     if (@available(macOS 13.0, *)) {
         NSError* err = nil;
-        if (SMAppService.mainApp.status == SMAppServiceStatusEnabled)
-            [SMAppService.mainApp unregisterAndReturnError:&err];
+        if (SMAppService.mainAppService.status == SMAppServiceStatusEnabled)
+            [SMAppService.mainAppService unregisterAndReturnError:&err];
         else
-            [SMAppService.mainApp registerAndReturnError:&err];
+            [SMAppService.mainAppService registerAndReturnError:&err];
         if (err) NSLog(@"Login item change failed: %@", err);
     }
 }

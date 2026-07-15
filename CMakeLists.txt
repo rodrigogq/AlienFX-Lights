@@ -16,6 +16,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(APPLE)
     enable_language(OBJCXX)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0" CACHE STRING "Minimum macOS version")
+    # The Objective-C++ sources assume ARC (no manual retain/release); without
+    # this the autoreleased NSStatusItem is deallocated and the menu bar icon
+    # vanishes right after launch.
+    add_compile_options($<$<COMPILE_LANGUAGE:OBJCXX>:-fobjc-arc>)
 endif()
 
 # --------------------------------------------------------------------------
